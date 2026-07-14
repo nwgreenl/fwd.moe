@@ -1,6 +1,8 @@
 # fwd.moe
 
-<img src="public/fwd-chan.png" style="width:175px;height:175px" alt="A drawing of a girl with purple twin tails is smiling with her mouth open. Her left eye is open and her right eye is closed to look like she is winking. She has a forward arrow as a hair clip on the right side of her head.">
+<a href="https://fwd.moe" target="_blank">
+  <img src="public/fwd-chan.png" style="width:175px;height:175px" alt="A drawing of a girl with purple twin tails is smiling with her mouth open. Her left eye is open and her right eye is closed to look like she is winking. She has a forward arrow as a hair clip on the right side of her head.">
+</a>
 
 A simple preact app for path-based _fwds_ (forwards/redirects), which are stored via local storage.
 
