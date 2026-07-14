@@ -58,6 +58,6 @@ A pre-commit hook (via `husky`) will run `lint` and `build:github-pages` scripts
 
 ## Deploy
 
-Hosted on github pages, via the the [`dist`](./dist/) directory.
+Hosted on github pages, via the [`dist`](./dist/) directory.
 
 The [`dist/404.html`](./dist/404.html) file is copied from [`dist/index.html`](./dist/index.html) during `build:github-pages` as a _hack_, so that github pages will serve the app on any route.
