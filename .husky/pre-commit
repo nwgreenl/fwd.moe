@@ -1,0 +1,9 @@
+if git diff --cached --quiet -- 'src/' 'index.html'; then
+  echo "No changes to source, skipping build."
+  exit 0
+else
+  npx lint-staged
+  npm run build:github-pages
+
+  git add dist/
+fi
