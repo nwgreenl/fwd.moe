@@ -68,8 +68,8 @@ export default class FwdService {
 
   static #sortFwds = (fwds: Fwd[], { asc = true } = {}): Fwd[] => {
     return fwds.sort((fwdA, fwdB) => {
-      const [firstFwd, secondFwd] = asc ? [fwdA, fwdB] : [fwdB, fwdA];
-      return firstFwd.id.localeCompare(secondFwd.id);
+      if (!asc) [fwdA, fwdB] = [fwdB, fwdA];
+      return fwdA.id.localeCompare(fwdB.id);
     });
   };
 
