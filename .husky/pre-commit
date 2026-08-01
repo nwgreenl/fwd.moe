@@ -4,6 +4,5 @@ if git diff --cached --quiet -- 'src/' 'index.html'; then
 else
   npx lint-staged
   npm run build:github-pages
-
   git add dist/
 fi
