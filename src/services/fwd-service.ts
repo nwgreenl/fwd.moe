@@ -77,7 +77,7 @@ export default class FwdService {
     return this.#sortFwds(this.fwds, { asc });
   }
 
-  static getTimeProperties(createdAt?: number) {
+  static getTimeProperties(createdAt?: number): Pick<Fwd, "createdAt" | "updatedAt"> {
     const now = Date.now();
     return {
       createdAt: createdAt ?? now,
