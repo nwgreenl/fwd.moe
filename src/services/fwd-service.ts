@@ -1,14 +1,14 @@
 import type { Fwd, FwdMap, FwdValidationResultError, FwdValidationResultErrorMap } from "../types";
 
-const DEFAULT_FWDS: Fwd[] = [
-  { id: "a", url: "https://anilist.co/search" },
-  { id: "mal", url: "https://myanimelist.net" },
-];
-const DEFAULT_FWD_MAP: FwdMap = DEFAULT_FWDS.reduce((fwdMap, fwd) => ({ ...fwdMap, [fwd.id]: fwd }), {});
-
 export default class FwdService {
   static #LOCAL_STORAGE_KEY = "fwdMap";
   static TEMP_FWD_ID = "___temp___.___fwd___";
+
+  static #DEFAULT_FWDS: Fwd[] = [
+    { id: "a", url: "https://anilist.co/search", ...this.getTimeProperties() },
+    { id: "mal", url: "https://myanimelist.net", ...this.getTimeProperties() },
+  ];
+  static #DEFAULT_FWD_MAP: FwdMap = this.#DEFAULT_FWDS.reduce((fwdMap, fwd) => ({ ...fwdMap, [fwd.id]: fwd }), {});
 
   static #__fwdMap: FwdMap;
   static #__fwds: Fwd[];
@@ -43,8 +43,8 @@ export default class FwdService {
 
   static #initFwdMap = (): FwdMap => {
     localStorage.removeItem(this.#LOCAL_STORAGE_KEY);
-    localStorage.setItem(this.#LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_FWD_MAP));
-    return { ...DEFAULT_FWD_MAP };
+    localStorage.setItem(this.#LOCAL_STORAGE_KEY, JSON.stringify(this.#DEFAULT_FWD_MAP));
+    return { ...this.#DEFAULT_FWD_MAP };
   };
 
   static #loadFwdMap = (): FwdMap => {
@@ -77,16 +77,18 @@ export default class FwdService {
     return this.#sortFwds(this.fwds, { asc });
   }
 
+  static getTimeProperties(createdAt?: number) {
+    const now = Date.now();
+    return {
+      createdAt: createdAt ?? now,
+      updatedAt: now,
+    };
+  }
+
   static upsertFwdToMap = (fwd: Fwd, originalFwdId?: Fwd["id"]) => {
     if (this.isTempFwd(fwd.id)) throw new Error("cannot add temp fwd to map");
 
-    const now = Date.now();
-    const upsertProps = {
-      createdAt: fwd.createdAt ?? now,
-      updatedAt: now,
-    };
-
-    const newFwd: Fwd = { ...fwd, ...upsertProps };
+    const newFwd: Fwd = { ...fwd, ...this.getTimeProperties(fwd.createdAt) };
     const newFwdMap = { ...this.fwdMap, [newFwd.id]: newFwd };
 
     if (originalFwdId && newFwd.id !== originalFwdId && newFwdMap[originalFwdId]) {
